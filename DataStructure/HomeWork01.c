@@ -18,60 +18,64 @@ int main()
 	double duration;
 
 	// 1.1 무작위 100,000개 정수 생성 및 정렬, 정렬 검사 수행
-	/*printf("1.1. 역순 정렬 배열(100,000 ~ 0) 생성 및 정렬, 정렬 검사 수행\n");
 
-	printf("1.1.1. 역순 배열 생성 : ");
-	reverse_list_make(list, 100000);
-	printf("생성 완료\n");
+	//printf("1.1. 역순 정렬 배열(100,000 ~ 0) 생성 및 정렬, 정렬 검사 수행\n");
 
-	printf("1.1.2. 배열 정렬 : ");
+	//printf("1.1.1. 역순 배열 생성 : ");
+	//reverse_list_make(list, 100000);
+	//printf("생성 완료\n");
 
-	sort(list, 100000, &duration);
+	//printf("1.1.2. 배열 정렬 : ");
+	//sort(list, 100000, &duration);
+	//printf("정렬 완료\n");
 
-	printf("정렬에 걸린 시간 : %f\n", duration);
+	//printf("정렬에 걸린 시간 : %.4fs\n", duration/1000);
 
-	printf("1.1.3. 정렬 상태 : ");
-	is_sorted(list, 100000);
+	//printf("1.1.3. 정렬 상태 : ");
+	//is_sorted(list, 100000);
 
-	printf("배열 출력 :\n");
-	print_list(list, 100000);*/
+	//printf("배열 출력 :\n");
+	//print_list(list, 100000);
 
-	// 1.2 n의 크기를 100부터 1,000,000까지 바꾸면서 sort 함수의 실행 시간을 측정하여 관찰지에 기록
+	//// 1.2 n의 크기를 100부터 1,000,000까지 바꾸면서 sort 함수의 실행 시간을 측정하여 관찰지에 기록
+	//// n = 100 까지
 
-	// n = 100 까지
-	printf("n\t time\t sort\n");
-	for (int i = 0; i < 10; i++) {
-		int n_size = 10;
-		printf("%7d", i * n_size);
-		reverse_list_make(list, i * n_size);
-		sort(list, i * n_size, &duration);
-		printf("   %7.2f\t", duration);
-		is_sorted(list, i * n_size);
+	printf("      n        time\t   sort\n");
+
+	for (int i = 0; i < 5;i++) {
+		int n;
+		switch (i)
+		{
+		case 0:
+			reverse_list_make(list, 0);
+			sort(list, 0, &duration);
+			printf("%7d %10.4fs     ", 0, duration/1000);
+			is_sorted(list, 0);
+			n = 10;
+			break;
+		case 1:
+			n = 100;
+			break;
+		case 2:
+			n = 1000;
+			break;
+		case 3:
+			n = 10000;
+			break;
+		case 4:
+			n = 100000;
+			break;
+		default:
+			return 0;
+		}
+		for (int j = 1; j < 10; j++) {
+			reverse_list_make(list, n * j);
+			sort(list, n * j, &duration);
+			printf("%7d %10.4fs     ", n * j, duration/1000);
+			is_sorted(list, n * j);
+		}
 	}
-	for (int i = 0; i < 10; i++) {
-		int n_size = 100;
-		printf("%7d", i * n_size);
-		reverse_list_make(list, i * n_size);
-		sort(list, i * n_size, &duration);
-		printf("   %7.2f\t", duration);
-		is_sorted(list, i * n_size);
-	}
-	for (int i = 0; i < 10; i++) {
-		int n_size = 1000;
-		printf("%7d", i * n_size);
-		reverse_list_make(list, i * n_size);
-		sort(list, i * n_size, &duration);
-		printf("   %7.2f\t", duration);
-		is_sorted(list, i * n_size);
-	}
-	for (int i = 0; i < 10; i++) {
-		int n_size = 10000;
-		printf("%7d", i * n_size);
-		reverse_list_make(list, i * n_size);
-		sort(list, i * n_size, &duration);
-		printf("   %7.2f\t", duration);
-		is_sorted(list, i * n_size);
-	}
+	
 	return 0;
 
 
