@@ -4,5 +4,6 @@ int main(void) {
 	// testing word
 	// push
 	// only push
+	// compu test
 	return 0;
 }
