@@ -42,7 +42,7 @@ int main()
 
 	printf("      n        time\t   sort\n");
 
-	for (int i = 0; i < 5;i++) {
+	for (int i = 5; i < 6;i++) {
 		int n;
 		switch (i)
 		{
@@ -65,15 +65,27 @@ int main()
 		case 4:
 			n = 100000;
 			break;
+		case 5:
+			n = 1000000;
+			break;
 		default:
 			return 0;
 		}
-		for (int j = 1; j < 10; j++) {
-			reverse_list_make(list, n * j);
-			sort(list, n * j, &duration);
-			printf("%7d %10.4fs     ", n * j, duration/1000);
-			is_sorted(list, n * j);
+		if (i != 5){
+			for (int j = 1; j < 10; j++) {
+				reverse_list_make(list, n * j);
+				sort(list, n * j, &duration);
+				printf("%7d %10.4fs     ", n * j, duration/1000);
+				is_sorted(list, n * j);
+			}
 		}
+		else {
+			reverse_list_make(list, n);
+			sort(list, n, &duration);
+			printf("%7d %10.4fs     ", n, duration / 1000);
+			is_sorted(list, n);
+		}
+		
 	}
 	
 	return 0;
