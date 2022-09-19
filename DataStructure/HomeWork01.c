@@ -37,12 +37,11 @@ int main()
 	//printf("배열 출력 :\n");
 	//print_list(list, 100000);
 
-	//// 1.2 n의 크기를 100부터 1,000,000까지 바꾸면서 sort 함수의 실행 시간을 측정하여 관찰지에 기록
-	//// n = 100 까지
-
+	// 1.2 n의 크기를 100부터 1,000,000까지 바꾸면서 sort 함수의 실행 시간을 측정하여 관찰지에 기록
+	
+	printf("1.2 n의 크기를 100부터 1,000,000까지 바꾸면서 sort 함수의 실행 시간을 측정하여 관찰지에 기록\n");
 	printf("      n        time\t   sort\n");
-
-	for (int i = 5; i < 6;i++) {
+	for (int i = 0; i < 6;i++) {
 		int n;
 		switch (i)
 		{
@@ -87,6 +86,8 @@ int main()
 		}
 		
 	}
+
+	// 1.3
 	
 	return 0;
 
@@ -95,6 +96,11 @@ int main()
 void reverse_list_make(int list[], int n) {
 	for (int i = 0; i < n; i++) {
 		list[i] = n - i;
+	}
+}
+void random_list_make(int list[], int n) {
+	for (int i = 0; i < n; i++) {
+		list[i] = rand() + rand() + rand() + 1699;
 	}
 }
 void print_list(int list[], int n) {
