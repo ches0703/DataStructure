@@ -38,22 +38,22 @@ int main()
 			continue;
 		}
 		makeIntegerToStr(n, integer_str);
-		printf("1 ~ %d 순열\n", n);
+		printf("0 ~ %d 순열\n", n-1);
 		duration = perm(integer_str, 0, strlen(integer_str)-1);
 		printf("\n실행시간 : %5.3f\n\n",duration);
 	}
 	
 
 	// 2.3
-	for (int i = 0; i < 11; i++) {
-		makeIntegerToStr(i+1, integer_str);
-		duration = perm(integer_str, 0, strlen(integer_str) - 1);
-		duration_data[i] = duration;
+	for (int i = 1; i < 11; i++) {
+		makeIntegerToStr(i, integer_str);
+		duration = perm(integer_str, 0, strlen(integer_str)-1);
+		duration_data[i-1] = duration;
 		printf("\n");
 	}
 	printf("  n     duration\n");
-	for (int i = 0; i < 11; i++) {
-		printf("%3d %12.3f\n", i, duration_data[i]);
+	for (int i = 1; i < 11; i++) {
+		printf("%3d %12.3f\n", i, duration_data[i-1]);
 	}
 
 }
@@ -80,7 +80,7 @@ double perm(char* list, int i, int n) {
 }
 void makeIntegerToStr(int n, char* str) {
 	for (int i = 0; i < n; i++) {
-		str[i] = i + 49;
+		str[i] = i + 48;
 	}
 	str[n] = NULL;
 }
