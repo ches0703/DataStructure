@@ -82,13 +82,14 @@ int main()
 	free(D);
 
 }
-// pol
+// polynomial 배열 크기 확인 및 재 할당
 void PolymialArraySizeCheckAndIncrease(polynomial* P) {
 	int p_size = (_msize(P) / sizeof(polynomial));
 	if (P[p_size - 1].expon) {
 		realloc(P, sizeof(polynomial) * (p_size + 1));
 	}
 }
+// polynomial 배열 입력
 void GetPolynomial(polynomial* P) {
 
 	float get_coef = 0;
@@ -114,6 +115,7 @@ void GetPolynomial(polynomial* P) {
 	}
 
 }
+// polynomial 배열 출력
 void PrintPolynomial(polynomial* P) {
 	for (int i = 0; CheckNotEnd(P[i]); i++) {
 		if (i) {
@@ -131,6 +133,7 @@ void PrintPolynomial(polynomial* P) {
 	}
 	printf("\n");
 }
+// polynomial 배열 정렬 : 지수의 내림차순으로
 void SortPolynomial(polynomial* P) {
 	polynomial temp;
 	for (int i = 0; CheckNotEnd(P[i]); i++) {
@@ -141,6 +144,7 @@ void SortPolynomial(polynomial* P) {
 		}
 	}
 }
+// polynomial[i]가 배열의 끝이 아닌지 판별 : coef, expon이 둘다 -1 이면 끝이므로 0 반환
 int CheckNotEnd(polynomial P) {
 	if (((P.coef == -1) && (P.expon == -1))) {
 		return 0;
@@ -149,6 +153,8 @@ int CheckNotEnd(polynomial P) {
 		return 1;
 	}
 }
+// polynomial배열에 값 추가시 해당 값의 중복 검사
+// 같은 expon을 가진 polynomial가 잇을시 해당값에 가산하여 저장
 int CheckNotDuplicate(polynomial* P, int get_expon, float get_coef) {
 	for (int i = 0; P[i].coef; i++) {
 		if (P[i].expon == get_expon) {
@@ -158,6 +164,7 @@ int CheckNotDuplicate(polynomial* P, int get_expon, float get_coef) {
 	}
 	return 1;
 }
+// polynomial배열간의 합 연산
 polynomial* padd(polynomial* A, polynomial* B) {
 	polynomial* D = (polynomial*)calloc(10, sizeof(polynomial));
 	int D_index = 0;
@@ -181,6 +188,7 @@ polynomial* padd(polynomial* A, polynomial* B) {
 	SortPolynomial(D);
 	return D;
 }
+// polynomial배열과 polynomial과의 곱 연산
 polynomial* single_mul(polynomial A, polynomial* B) {
 	polynomial* D = (polynomial*)calloc(10, sizeof(polynomial));
 	int D_index = 0;
@@ -195,6 +203,7 @@ polynomial* single_mul(polynomial A, polynomial* B) {
 	D[D_index].coef = -1;
 	return D;
 }
+// polynomial배열간의 곱 연산
 polynomial* pmul(polynomial* A, polynomial* B) {
 	polynomial* D = (polynomial*)calloc(1, sizeof(polynomial));
 	D[0].expon = -1;
