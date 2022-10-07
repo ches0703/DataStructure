@@ -86,7 +86,7 @@ int main()
 void PolymialArraySizeCheckAndIncrease(polynomial* P) {
 	int p_size = (_msize(P) / sizeof(polynomial));
 	if (P[p_size - 1].expon) {
-		realloc(P, sizeof(polynomial) * (p_size + 1));
+		P = (polynomial*)realloc(P, sizeof(polynomial) * (p_size + 1));
 	}
 }
 // polynomial 배열 입력
