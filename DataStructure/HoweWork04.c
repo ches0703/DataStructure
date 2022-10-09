@@ -10,7 +10,8 @@ int top = -1;
 void push(int item);
 int pop();
 
-int queue[3], front = -1, rear = -1;
+int *queue;
+int front = -1, rear = -1;
 void add_q(int item);
 int delete_q();
 
@@ -55,6 +56,8 @@ int main()
 		printf("\n");
 	}
 
+	queue = (int*)calloc(max_queue_size, sizeof(int));
+
 	for (int i = 1; i;) {
 		printf("add_q = 0, delete_q = 1, end = -1 : ");
 		scanf("%d", &menu);
@@ -77,16 +80,31 @@ int main()
 			break;
 		}
 
+		printf("Index : \n");
+		for (int i = 0; i < max_queue_size; i++) {
+			printf("[%3d]", i);
+		}
+		printf("\n");
+		printf("vlaue : \n");
+		for (int i = 0; i <= front; i++) {
+			if (i <= rear) {
+				printf("[ x ]");
+			}
+			else {
+				printf("[%3d]", queue[i]);
+			}
+		}
+		printf("\n");
+
 	}
 
 	free(stack);
-
+	free(queue);
 }
 
 void push(int item) {
 	if (top < max_stack_size - 1) {
 		stack[++top] = item;
-		printf("max size : %d, top = %d\n", max_stack_size, top);
 	}
 	else {
 		printf("Stack is full... Retouch Stack size!\n");
@@ -104,17 +122,20 @@ int pop() {
 }
 
 void add_q(int item) {
-	if (front < (int)(sizeof(queue) / sizeof(int))-1) {
+	if (front < max_queue_size - 1) {
 		queue[++front] = item;
 	}
 	else {
-		printf("It is full...\n");
+		printf("Queue is full... Retouch Queue size!\n");
+		max_queue_size *= 2;
+		queue = (int**)realloc(queue, sizeof(int) * max_queue_size);
+		queue[++front] = item;
 	}
 }
 int delete_q() {
 	if (rear >= front) {
 		printf("It is empty...\n");
-		return 0;
+		return -1;
 	}
 	return queue[++rear];
 }
