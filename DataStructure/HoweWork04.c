@@ -20,20 +20,21 @@ int main()
 	int menu;
 	int item;
 
+	printf("3.1 Stack \n");
 	stack = (int*)calloc(max_stack_size, sizeof(int));
-
-	printf("***");
 	for (int i = 1;i;) {
-		printf("push = 0, pop = 1, end = -1 : ");
+		printf("Select Menu(push = 1, pop = 2, end = -1) : ");
 		scanf("%d", &menu);
+		printf("\n");
 		switch (menu)
 		{
-			case 0:
+			case 1:
 				printf("input integer : ");
 				scanf("%d", &item);
+				printf("\n");
 				push(item);
 				break;
-			case 1:
+			case 2:
 				printf("pop() = %d\n", pop());
 				break;
 			case -1:
@@ -44,6 +45,7 @@ int main()
 				printf("worng value!!!\n");
 				break;
 		}
+		printf("\n");
 		printf("Index : \n");
 		for (int i = 0; i < max_stack_size; i++) {
 			printf("[%3d]", i);
@@ -54,10 +56,11 @@ int main()
 			printf("[%3d]", stack[i]);
 		}
 		printf("\n");
+		printf("\n");
 	}
 
 	queue = (int*)calloc(max_queue_size, sizeof(int));
-
+	
 	for (int i = 1; i;) {
 		printf("add_q = 0, delete_q = 1, end = -1 : ");
 		scanf("%d", &menu);
@@ -79,7 +82,6 @@ int main()
 			printf("worng value!!!\n");
 			break;
 		}
-
 		printf("Index : \n");
 		for (int i = 0; i < max_queue_size; i++) {
 			printf("[%3d]", i);
@@ -95,7 +97,6 @@ int main()
 			}
 		}
 		printf("\n");
-
 	}
 
 	free(stack);
@@ -122,21 +123,21 @@ int pop() {
 }
 
 void add_q(int item) {
-	if (front < max_queue_size - 1) {
-		queue[++front] = item;
+	if (rear < max_queue_size - 1) {
+		queue[++rear] = item;
 	}
 	else {
 		printf("Queue is full... Retouch Queue size!\n");
 		max_queue_size *= 2;
 		queue = (int**)realloc(queue, sizeof(int) * max_queue_size);
-		queue[++front] = item;
+		queue[++rear] = item;
 	}
 }
 
 int delete_q() {
-	if (rear >= front) {
+	if (front >= rear) {
 		printf("It is empty...\n");
 		return -1;
 	}
-	return queue[++rear];
+	return queue[++front];
 }

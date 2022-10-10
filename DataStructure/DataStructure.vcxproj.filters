@@ -33,5 +33,8 @@
     <ClCompile Include="HoweWork04.c">
       <Filter>소스 파일\TrainingClass</Filter>
     </ClCompile>
+    <ClCompile Include="Multiflex.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
