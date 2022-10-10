@@ -114,9 +114,12 @@ void mMult(term a[], term b[], term d[])
 		column = newB[1].row;
 		for (j = 1; j <= totalb + 1; )
 		{
-			if (newB[j].row == newB[0].row) {
+			// Fix area start----------------------------------
+			if (newB[j].row == newB[0].row) { \
+				storesum(d, &totald, row, column, &sum);
 				break;
 			}
+			// Fix area done-----------------------------------
 			else if (a[i].row != row)
 			{
 				storesum(d, &totald, row, column, &sum);
