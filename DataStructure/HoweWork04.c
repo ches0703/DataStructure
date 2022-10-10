@@ -132,6 +132,7 @@ void add_q(int item) {
 		queue[++front] = item;
 	}
 }
+
 int delete_q() {
 	if (rear >= front) {
 		printf("It is empty...\n");

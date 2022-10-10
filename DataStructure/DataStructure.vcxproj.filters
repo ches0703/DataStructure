@@ -13,22 +13,25 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="소스 파일\TrainingClass">
+      <UniqueIdentifier>{e10caa16-3900-4549-a540-c034bda4649c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HomeWork01.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="HomeWork02.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="HomeWork03.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="counting_sort.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="HomeWork01.c">
+      <Filter>소스 파일\TrainingClass</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeWork02.c">
+      <Filter>소스 파일\TrainingClass</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeWork03.c">
+      <Filter>소스 파일\TrainingClass</Filter>
+    </ClCompile>
     <ClCompile Include="HoweWork04.c">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\TrainingClass</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
