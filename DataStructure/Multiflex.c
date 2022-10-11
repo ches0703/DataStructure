@@ -109,33 +109,30 @@ void mMult(term a[], term b[], term d[])
 	newB[totalb + 1].row = cols_b;
 	newB[totalb + 1].col = 0;
 
-	for (i = 1; i <= totala; )
-	{
+	for (i = 1; i <= totala; ){
 		column = newB[1].row;
-		for (j = 1; j <= totalb + 1; )
-		{
+		for (j = 1; j <= totalb + 1; ){
 			// Fix area start----------------------------------
-			if (newB[j].row == newB[0].row) { \
+			if (newB[j].row == newB[0].row) {
 				storesum(d, &totald, row, column, &sum);
 				break;
 			}
+			// newB[j]가 마지막 인덱스, 즉 newB의 row값을 저장하는
+			// 인덱스에 접근시, 값을 저장하고 반복문을 나오는 조건을
+			// 추가하였다.
 			// Fix area done-----------------------------------
-			else if (a[i].row != row)
-			{
+			else if (a[i].row != row){
 				storesum(d, &totald, row, column, &sum);
 				i = row_begin;
-				for (; newB[j].row == column; j++)
-					;
+				for (; newB[j].row == column; j++) { }
 				column = newB[j].row;
 			}
-			else if (newB[j].row != column)
-			{
+			else if (newB[j].row != column){
 				storesum(d, &totald, row, column, &sum);
 				i = row_begin;
 				column = newB[j].row;
 			}
-			else switch (COMPARE(a[i].col, newB[j].col))
-			{
+			else switch (COMPARE(a[i].col, newB[j].col)){
 			case -1: /* go to next term in a */
 				i++;
 				break;
@@ -147,8 +144,7 @@ void mMult(term a[], term b[], term d[])
 				j++;
 			}
 		} // end of J <= totalb+1
-		for (; a[i].row == row; i++)
-			;
+		for (; a[i].row == row; i++) { }
 		row_begin = i;
 		row = a[i].row;
 	} /* end of for I <= totala */
@@ -159,41 +155,34 @@ void mMult(term a[], term b[], term d[])
 
 void mAdd(term a[], term b[], term d[])
 {	
-	// 행렬의 끝을 표시하기위해 배열의 끝의 row값에 배열의 row값을 대입
-	a[a[0].value + 1].row = a[a[0].value].row + 1;
-	b[b[0].value + 1].row = b[b[0].value].row + 1;
-
 	// 행렬의 합 조건 : 각 행렬의 row, col 값이 동일 하여야 함
 	if ((a[0].row != b[0].row) || (a[0].col != b[0].col)) {
 		fprintf(stderr, "Incompatible matricses for MAdd\n");
 		exit(0);
 	}
 
-	// 희소행렬 표현 배열의 요소를 카르키는 인덱스
-	int index_a = 1;
-	int index_b = 1;
+	// 행렬의 끝을 표시하기위해 배열의 끝의 row값에 배열의 row값을 대입
+	a[a[0].value + 1].row = a[a[0].value].row + 1;
+	b[b[0].value + 1].row = b[b[0].value].row + 1;
 
 	// d의 초기설정 : d의 row와 col값은 a나 b와 같음(행렬 합 조건에 의해)
 	d[0].row = a[0].row;
 	d[0].col = a[0].col;
 	d[0].value = 0;
 
+	// 희소행렬 표현 배열의 요소를 카르키는 인덱스
+	int index_a = 1, index_b = 1;
+
 	// i는 d의 index value
 	for (int i = 1;; i++) {
 		// d에 a의 값이 다 적용되고 b의 값이 남아있는경우
 		if (a[index_a].row == a[0].row) {
-			for (; b[index_b].row != b[0].row;) {
-				d[i] = b[index_b++];
-				d[0].value++;
-			}
+			for (; b[index_b].row != b[0].row; d[0].value++) { d[i++] = b[index_b++]; }
 			break;
 		}
 		// d에 b의 값이 다 적용되고 a의 값이 남아있는경우
 		else if (b[index_b].row == b[0].row) {
-			for (; a[index_a].row != a[0].row;) {
-				d[i] = a[index_a++];
-				d[0].value++;
-			}
+			for (; a[index_a].row != a[0].row; d[0].value++) { d[i++] = a[index_a++]; }
 			break;
 		}
 		else {
