@@ -4,6 +4,7 @@
 
 int max_stack_size = 1;
 int max_queue_size = 1;
+int max_Cqueue_size = 1;
 
 int* stack;
 int top = -1;
@@ -14,6 +15,11 @@ int *queue;
 int front = -1, rear = -1;
 void add_q(int item);
 int delete_q();
+
+int* Cqueue;
+int Cfront = -1, Crear = -1;
+void Cadd_q(int item);
+int Cdelete_q();
 
 int main()
 {
@@ -88,8 +94,8 @@ int main()
 		}
 		printf("\n");
 		printf("vlaue : \n");
-		for (int i = 0; i <= front; i++) {
-			if (i <= rear) {
+		for (int i = 0; i <= rear; i++) {
+			if (i <= front) {
 				printf("[ x ]");
 			}
 			else {
@@ -140,4 +146,22 @@ int delete_q() {
 		return -1;
 	}
 	return queue[++front];
+}
+
+void Cadd_q(int item) {
+	if ((rear == -1) && (front == -1)) {
+		Cqueue[++rear] = item;
+	}
+	else{
+		rear %= max_Cqueue_size;
+		if (rear != front) {
+			queue[++rear] = item;
+		}
+		else {
+			printf("Queue is full... Retouch Queue size!\n");
+			max_queue_size *= 2;
+			queue = (int**)realloc(queue, sizeof(int) * max_queue_size);
+			queue[++rear] = item;
+		}
+	}
 }
