@@ -2,9 +2,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int max_stack_size = 1;
-int max_queue_size = 1;
-int max_Cqueue_size = 1;
+int max_stack_size = 10;
+int max_queue_size = 10;
+int max_Cqueue_size = 10;
 
 int* stack;
 int top = -1;
@@ -16,28 +16,31 @@ int front = -1, rear = -1;
 void add_q(int item);
 int delete_q();
 
-int* Cqueue;
-int Cfront = -1, Crear = -1;
-void Cadd_q(int item);
-int Cdelete_q();
+int* Cqueue = NULL;
+int Cfront = 4, Crear = 4;
+void add_Cq(int item);
+int delete_Cq();
+int Cqueue_is_empty = 1;
+int Cqueue_is_full = 0;
+
 
 int main()
 {
 	int menu;
 	int item;
 
+	// 3.1 Stack ----------------------------------------------
 	printf("3.1 Stack \n");
+	menu = 0;
 	stack = (int*)calloc(max_stack_size, sizeof(int));
-	for (int i = 1;i;) {
+	for (;menu!=-1;) {
 		printf("Select Menu(push = 1, pop = 2, end = -1) : ");
 		scanf("%d", &menu);
-		printf("\n");
 		switch (menu)
 		{
 			case 1:
 				printf("input integer : ");
 				scanf("%d", &item);
-				printf("\n");
 				push(item);
 				break;
 			case 2:
@@ -45,7 +48,6 @@ int main()
 				break;
 			case -1:
 				printf("End...\n");
-				i = 0;
 				break;
 			default:
 				printf("worng value!!!\n");
@@ -58,57 +60,148 @@ int main()
 		}
 		printf("\n");
 		printf("vlaue : \n");
-		for (int i = 0; i <= top; i++) {
-			printf("[%3d]", stack[i]);
+		for (int i = 0; i < max_stack_size; i++) {
+			if (i <= top) {
+				printf("[%3d]", stack[i]);
+			}
+			else {
+				printf("[ x ]");
+			}
 		}
 		printf("\n");
 		printf("\n");
 	}
 
+	// 3.2 Queue ----------------------------------------------
+	printf("3.2 Queue \n");
+	menu = 0;
 	queue = (int*)calloc(max_queue_size, sizeof(int));
-	
-	for (int i = 1; i;) {
-		printf("add_q = 0, delete_q = 1, end = -1 : ");
+	for (; menu != -1;) {
+		printf("add_q = 1, delete_q = 2, end = -1 : ");
 		scanf("%d", &menu);
 		switch (menu)
 		{
-		case 0:
+		case 1:
 			printf("input integer : ");
 			scanf("%d", &item);
 			add_q(item);
 			break;
-		case 1:
+		case 2:
 			printf("delete_q() = %d\n", delete_q());
 			break;
 		case -1:
 			printf("End...");
-			i = 0;
 			break;
 		default:
 			printf("worng value!!!\n");
 			break;
 		}
+		printf("\n");
 		printf("Index : \n");
 		for (int i = 0; i < max_queue_size; i++) {
 			printf("[%3d]", i);
 		}
 		printf("\n");
 		printf("vlaue : \n");
-		for (int i = 0; i <= rear; i++) {
-			if (i <= front) {
-				printf("[ x ]");
+		for (int i = 0; i < max_queue_size; i++) {
+			if (i <= rear) {
+				if (i <= front) {
+					printf("[ x ]");
+				}
+				else {
+					printf("[%3d]", queue[i]);
+				}
 			}
 			else {
-				printf("[%3d]", queue[i]);
+				printf("[ x ]");
 			}
 		}
+		printf("\n");
+		printf("\n");
+	}
+
+	// 3.3 CQueue ---------------------------------------------
+	printf("3.3 CQueue \n");
+	menu = 0;
+	for (; menu != -1;) {
+		printf("add_Cq = 1, delete_Cq = 2, end = -1 : ");
+		scanf("%d", &menu);
+		switch (menu)
+		{
+		case 1:
+			printf("input integer : ");
+			scanf("%d", &item);
+			add_Cq(item);
+			break;
+		case 2:
+			printf("delete_q() = %d\n", delete_Cq());
+			break;
+		case -1:
+			printf("End...");
+			break;
+		default:
+			printf("worng value!!!\n");
+			break;
+		}
+		printf("\n");
+		printf("Index : \n");
+		for (int i = 0; i < max_Cqueue_size; i++) {
+			printf("[%3d]", i);
+		}
+		printf("\n");
+		printf("vlaue : \n");
+		for (int i = 0; i < max_Cqueue_size; i++) {
+			if (Cfront < Crear) {
+				if ((Cfront <= i) && (Crear > i)) {
+					printf("[%3d]", Cqueue[i]);
+				}
+				else {
+					printf("[ x ]");
+				}
+			}
+			else if (Cfront > Crear) {
+				if ((Cfront <= i) != (Crear > i)) {
+					printf("[%3d]", Cqueue[i]);
+				}
+				else {
+					printf("[ x ]");
+				}
+			}
+			else {
+				if (Cqueue_is_empty) {
+					printf("[ x ]");
+				}
+				else {
+					printf("[%3d]", Cqueue[i]);
+				}
+			}
+		}
+		printf("\n");
+		for (int i = 0; i < max_Cqueue_size; i++) {
+			if ((i == Crear) && (i == Cfront)) {
+				printf("[f r]");
+			}
+			else if (i == Crear) {
+				printf("[ r ]");
+			}
+			else if (i == Cfront) {
+				printf("[ f ]");
+			}
+			else {
+				printf("     ");
+			}
+		}
+		printf("\n");
 		printf("\n");
 	}
 
 	free(stack);
 	free(queue);
-}
+	free(Cqueue);
 
+
+}
+// Stack
 void push(int item) {
 	if (top < max_stack_size - 1) {
 		stack[++top] = item;
@@ -127,7 +220,7 @@ int pop() {
 	}
 	return stack[top--];
 }
-
+// Queue
 void add_q(int item) {
 	if (rear < max_queue_size - 1) {
 		queue[++rear] = item;
@@ -139,7 +232,6 @@ void add_q(int item) {
 		queue[++rear] = item;
 	}
 }
-
 int delete_q() {
 	if (front >= rear) {
 		printf("It is empty...\n");
@@ -147,21 +239,51 @@ int delete_q() {
 	}
 	return queue[++front];
 }
-
-void Cadd_q(int item) {
-	if ((rear == -1) && (front == -1)) {
-		Cqueue[++rear] = item;
+// CQueue
+void add_Cq(int item) {
+	if (Cqueue == NULL) {
+		Cqueue = (int*)calloc(max_Cqueue_size, sizeof(int));
+		Cqueue[Crear++] = item;
+		Cqueue_is_empty = 0;
 	}
-	else{
-		rear %= max_Cqueue_size;
-		if (rear != front) {
-			queue[++rear] = item;
+	else if (Cqueue_is_full) {
+		printf("CQueue is full... Retouch CQueue size!\n");
+		int* temp = (int*)calloc(max_Cqueue_size * 2, sizeof(int));
+		int i = 0;
+		for (int j = Crear;j<max_Cqueue_size;j++) {
+			temp[i++] = Cqueue[j];
 		}
-		else {
-			printf("Queue is full... Retouch Queue size!\n");
-			max_queue_size *= 2;
-			queue = (int**)realloc(queue, sizeof(int) * max_queue_size);
-			queue[++rear] = item;
+		for (int j = 0; j < Crear; j++) {
+			temp[i++] = Cqueue[j];
 		}
+		free(Cqueue);
+		Cqueue = temp;
+		Cqueue_is_full = 0;
+		Crear = max_Cqueue_size;
+		Cfront = 0;
+		max_Cqueue_size *= 2;
+		add_Cq(item);
 	}
+	else {
+		Cqueue_is_empty = 0;
+		Cqueue[Crear++] = item;
+	}
+	Crear %= max_Cqueue_size;
+	if ((Cfront == Crear) && (!Cqueue_is_empty)) {
+		printf("CQueue is full...\n");
+		Cqueue_is_full = 1;
+	}
+}
+int delete_Cq() {
+	int temp;
+	if (Cqueue_is_empty) {
+		printf("It is empty...\n");
+		return -1;
+	}
+	temp = Cqueue[Cfront++];
+	Cfront %= max_Cqueue_size;
+	if (Cfront == Crear) {
+		Cqueue_is_empty = 1;
+	}
+	return temp;
 }
