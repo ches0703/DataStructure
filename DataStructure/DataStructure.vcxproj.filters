@@ -30,11 +30,14 @@
     <ClCompile Include="HomeWork03.c">
       <Filter>소스 파일\TrainingClass</Filter>
     </ClCompile>
-    <ClCompile Include="HoweWork04.c">
+    <ClCompile Include="HomeWork04.c">
       <Filter>소스 파일\TrainingClass</Filter>
     </ClCompile>
     <ClCompile Include="Multiflex.c">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeWork05.c">
+      <Filter>소스 파일\TrainingClass</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
