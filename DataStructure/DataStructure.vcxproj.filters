@@ -39,5 +39,11 @@
     <ClCompile Include="HomeWork05.c">
       <Filter>소스 파일\TrainingClass</Filter>
     </ClCompile>
+    <ClCompile Include="MID01.c">
+      <Filter>소스 파일\TrainingClass</Filter>
+    </ClCompile>
+    <ClCompile Include="MID02.c">
+      <Filter>소스 파일\TrainingClass</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
