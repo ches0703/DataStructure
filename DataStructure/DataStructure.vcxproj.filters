@@ -48,11 +48,11 @@
     <ClCompile Include="HomeWork06.c">
       <Filter>소스 파일\TrainingClass</Filter>
     </ClCompile>
-    <ClCompile Include="HomeWork07.c">
-      <Filter>소스 파일\TrainingClass</Filter>
-    </ClCompile>
     <ClCompile Include="Linked_List_Merge_Sorting.c">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeWork07.c">
+      <Filter>소스 파일\TrainingClass</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
