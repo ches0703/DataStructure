@@ -54,5 +54,8 @@
     <ClCompile Include="HomeWork07.c">
       <Filter>소스 파일\TrainingClass</Filter>
     </ClCompile>
+    <ClCompile Include="HomeWork08.c">
+      <Filter>소스 파일\TrainingClass</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
