@@ -1,4 +1,4 @@
-#define CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
@@ -21,9 +21,11 @@ int main()
 {
 	srand((unsigned)time(NULL));
 
-	// Make Tree By Code
+	// 8.1.1. 트리 구성 (A = make_tree_by_code())
 	Node* A = make_tree_by_code();
-	printf("A = make_tree_by_code(): \n");
+	printf("8.1.1. 트리 구성 (A = make_tree_by_code())\n");
+	// 8.1.2. 트리 순회 (A)
+	printf("8.1.2. 트리 순회 (A)\n");
 	printf("Inorder : ");
 	inorder(A);
 	printf("\n");
@@ -32,11 +34,13 @@ int main()
 	printf("\n");
 	printf("Postorder : ");
 	postorder(A);
-	printf("\n");
+	printf("\n\n");
 
-	// Copy
-	printf("B = (copy(A)) : \n");
+	// 8.2.1. 트리 복사 (B = copy(A))
+	printf("8.2.1. 트리 복사 (B = copy(A))\n");
 	Node* B = copy(A);
+	// 8.2.2. 트리 순회 (B)
+	printf("8.2.1.트리 복사(B = copy(A))\n");
 	printf("Inorder : ");
 	inorder(B);
 	printf("\n");
@@ -45,11 +49,24 @@ int main()
 	printf("\n");
 	printf("Postorder : ");
 	postorder(B);
+	printf("\n\n");
+
+	// 8.2.3. 트리 동질성 검사 (equal(A,B))
+	printf("8.2.3. 트리 동질성 검사 (equal(A,B))\n");
+	printf("equal(A, B) : ");
+	if (equal(A, B)) {
+		printf("True\n");
+	}
+	else {
+		printf("False\n");
+	}
 	printf("\n");
 
-	// Swap
+	// 8.2.4. 트리 swap (C = swap(A))
+	printf("8.2.4. 트리 swap (C = swap(A))\n");
 	Node* C = swap(A);
-	printf("C = (swap(A)) : \n");
+	// 8.2.5. 트리 순회 (C)
+	printf("8.2.5. 트리 순회 (C)\n");
 	printf("Inorder : ");
 	inorder(C);
 	printf("\n");
@@ -58,19 +75,17 @@ int main()
 	printf("\n");
 	printf("Postorder : ");
 	postorder(C);
-	printf("\n");
+	printf("\n\n");
 
-	// Equal
-	if (equal(A, B)) {
-		printf("A == B\n");
-	}
-	else {
-		printf("A != B\n");
-	}
+	
 
-	// Make Tree By Random
-	Node* D = make_tree_by_rand(9);
+	// 8.3.1. 랜덤 트리 자동 생성 (D)
+	int n;
+	printf("Input n : ");
+	scanf("%d", &n);
+	Node* D = make_tree_by_rand(n);
 	printf("D = make_tree_by_rand(9) : \n");
+	// 8.3.2. 트리 순회 (D)
 	printf("Inorder : ");
 	inorder(D);
 	printf("\n");
@@ -79,7 +94,7 @@ int main()
 	printf("\n");
 	printf("Postorder : ");
 	postorder(D);
-	printf("\n");
+	printf("\n\n");
 
 	return 0;
 
@@ -123,7 +138,6 @@ Node* make_tree_by_rand(int max_n) {
 	root->rchild = NULL;
 
 	for (Node* ptr; n < max_n; n++) {
-		printf("Move to root\n");
 		ptr = root;
 		for (; ptr ;) {
 			int rand_value = rand() % 2;
