@@ -26,8 +26,9 @@ int main()
 	srand((unsigned)time(NULL));
 	clock_t start, stop;
 	double duration;
-	int find_key;
+	int find_key, n;
 	Node* A = NULL;
+	Node* n_tree;
 	insert(&A, 10);
 	insert(&A, 6);
 	insert(&A, 15);
@@ -52,13 +53,20 @@ int main()
 	}
 	retTreeNode(&A);
 
-	start = clock();
-	Node* n_tree = make_bst(100000);
-	stop = clock();
-	duration = (double)(stop - start);
-	printf("duration = %.3f\n", duration / 1000);
-	printf("count node = %d\n", count_node(n_tree));
-	retTreeNode(&n_tree);
+	for (;;) {
+		printf("Enter size for make tree : ");
+		scanf("%d", &n);
+		if (n == -1) { break; }
+		start = clock();
+		n_tree = make_bst(n);
+		stop = clock();
+		duration = (double)(stop - start);
+		printf("duration = %.3f\n", duration / 1000);
+		printf("count node = %d\n", count_node(n_tree));
+		retTreeNode(&n_tree);
+	}
+
+	
 
 	freeAvail();
 }
