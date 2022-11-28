@@ -62,7 +62,7 @@ int main()
 	higherDgree(graph, n);
 
 	printf("DFS : \n");
-	DFS(graph, n, 5);
+	DFS(graph, n, 0);
 }
 
 void insertEdge(Node** graph, int start, int end) {
@@ -117,22 +117,27 @@ void higherDgree(Node** graph, int n) {
 
 }
 
+
 void DFS(Node** graph, int n, int start) {
 	int* visited = (int*)malloc(sizeof(int) * n);
 	for (int i = 0; i < n; i++) {
 		visited[i] = 0;
 	}
-	push(start);
-	visited[start] = 1;
+	Node* ptr = graph[start];
 	while (1) {
-		Node* ptr = graph[pop()];
-		printf("%d -> ", ptr->data);
-		for (Node* sub_ptr = ptr->next; sub_ptr; sub_ptr = sub_ptr->next) {
-			if (!visited[sub_ptr->data]) {
-				visited[sub_ptr->data] = 1;
-				printf("\npush : %d\n", sub_ptr->data);
-				push(sub_ptr->data);
-			}
+		if (visited[ptr->data] == 0) {
+			printf("%d - ", ptr->data);
+			push(ptr->data);
+			visited[ptr->data] = 1;
+			ptr = ptr->next;
+			ptr = graph[ptr->data];
+		}
+		else {
+			ptr = ptr->next;
+		}
+		if (ptr == NULL) {
+			ptr = graph[pop()];
+			continue;
 		}
 		if (top == -1) {
 			break;
