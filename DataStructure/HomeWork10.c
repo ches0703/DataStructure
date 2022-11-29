@@ -8,6 +8,7 @@ typedef struct Node {
 	struct Node* next;
 }Node;
 
+// 기본 스택 연산
 int max_stack_size = 10;
 int *stack;
 int top = -1;
@@ -31,6 +32,7 @@ void resetStack() {
 	top = -1;
 }
 
+// 기본 큐 연산
 int max_queue_size = 10;
 int* queue;
 int front = -1, rear = -1;
@@ -54,26 +56,35 @@ void resetQueue() {
 	front = -1, rear = -1;
 }
 
+// graph에 Edge 추가
 void insertEdge(Node** graph, int start, int end);
 
-void printGraph(Node** graph, int n);
-void higherDgree(Node** graph, int n);
+// Graph 정보 출력
+void printGraph(Node** graph, int n);	// Graph 출력
+void higherDgree(Node** graph, int n);	// Graph의 degree가 가장 높은 리스트 출력
 
-void DFS(Node** graph, int n, int start);
-void BFS(Node** graph, int n, int start);
+// Graph 탐색 알고리즘
+void DFS(Node** graph, int n, int start);	// 깊이 우선, Stack사용
+void BFS(Node** graph, int n, int start);	// 넓이 우선, Queue사용
 
+// Graph 신장 트리 알고리즘
 void spaningDFS(Node** graph, int n, int start);
 void spaningBFS(Node** graph, int n, int start);
 
+// Graph의 동적 할당 해제
 void freeGraph(Node** graph, int n);
 
 int main()
 {
+	// Stack 및 Queue 초기 동적 할당
 	stack = (int*)calloc(max_stack_size, sizeof(int));
 	queue = (int*)calloc(max_queue_size, sizeof(int));
+
 	int n;
 	Node** graph;
 	for (;;) {
+		// 10.1. 인접 리스트 형태의 무방향성 그래프 생성
+		printf("10.1. 인접 리스트 형태의 무방향성 그래프 생성\n");
 		printf("Enter the number of nodes (n) : ");
 		scanf("%d", &n);
 		if (n < 0) {
@@ -89,15 +100,16 @@ int main()
 		for (;;) {
 			printf("Enter the Edge : ");
 			scanf("%d %d", &start_node, &end_node);
-			if ((start_node < 0) || (end_node < 0)) {
-				break;
-			}
+			if ((start_node < 0) || (end_node < 0)) { break; }
 			insertEdge(graph, start_node, end_node);
 		}
 
+		// 그래프 출력 및 degree가 가장 높은 리스트 출력
 		printGraph(graph, n);
 		higherDgree(graph, n);
 
+		// 10.2. 탐색 알고리즘(DFS, BFS)
+		printf("10.2. 탐색 알고리즘(DFS, BFS)");
 		printf("\nDFS : \n");
 		for (int i = 0; i < n; i+=2) {
 			DFS(graph, n, i);
@@ -108,6 +120,8 @@ int main()
 			BFS(graph, n, i);
 		}
 
+		// 10.3. 신장트리 알고리즘(DFS, BFS 기반)
+		printf("10.3. 신장트리 알고리즘(DFS, BFS 기반)\n");
 		printf("\nSpaning tree of DFS : \n");;
 		for (int i = 0; i < n; i += 2) {
 			spaningDFS(graph, n, i);
@@ -129,6 +143,7 @@ int main()
 
 }
 
+// graph에 Edge 추가
 void insertEdge(Node** graph, int start, int end) {
 	Node* temp;
 	temp = (Node*)malloc(sizeof(Node));
@@ -142,6 +157,7 @@ void insertEdge(Node** graph, int start, int end) {
 	graph[end]->next = temp;
 }
 
+// Graph 출력
 void printGraph(Node** graph, int n) {
 	printf("\nGraph : \n");
 	for (int i = 0; i < n; i++) {
@@ -154,6 +170,7 @@ void printGraph(Node** graph, int n) {
 	printf("\n");
 }
 
+// Graph의 degree가 가장 높은 리스트 출력
 void higherDgree(Node** graph, int n) {
 
 	int higher_dgree_node = 0;
@@ -179,6 +196,7 @@ void higherDgree(Node** graph, int n) {
 
 }
 
+// Graph 탐색 알고리즘 : 깊이 우선 탐색
 void DFS(Node** graph, int n, int start) {
 	int* visited = (int*)calloc(n, sizeof(int));
 	printf("  start node = %d : ", start);
@@ -205,6 +223,7 @@ void DFS(Node** graph, int n, int start) {
 	free(visited);
 }
 
+// Graph 탐색 알고리즘 : 넓이 우선 탐색
 void BFS(Node** graph, int n, int start) {
 	int* visited = (int*)calloc(n, sizeof(int));
 	printf("  start node = %d : ", start);
@@ -228,6 +247,7 @@ void BFS(Node** graph, int n, int start) {
 	free(visited);
 }
 
+// Graph 신장 트리 알고리즘 : DFS
 void spaningDFS(Node** graph, int n, int start) {
 	int* visited = (int*)calloc(n, sizeof(int));
 	Node* prev_ptr = graph[start];
@@ -259,6 +279,7 @@ void spaningDFS(Node** graph, int n, int start) {
 	free(visited);
 }
 
+// Graph 신장 트리 알고리즘 : BFS
 void spaningBFS(Node** graph, int n, int start) {
 	int* visited = (int*)calloc(n, sizeof(int));
 	Node* prev_ptr = graph[start];
@@ -286,6 +307,7 @@ void spaningBFS(Node** graph, int n, int start) {
 	free(visited);
 }
 
+// Graph의 동적 할당 해제
 void freeGraph(Node** graph, int n) {
 	for (int i = 0; i < n; i++) {
 		Node* ptr = graph[i];
