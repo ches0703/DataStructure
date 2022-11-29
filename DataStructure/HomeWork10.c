@@ -16,7 +16,6 @@ void push(int item) {
 		stack[++top] = item;
 	}
 	else {
-		printf("Stack is full... Retouch Stack size!\n");
 		max_stack_size *= 2;
 		stack = (int**)realloc(stack, sizeof(int) * max_stack_size);
 		stack[++top] = item;
@@ -24,71 +23,135 @@ void push(int item) {
 }
 int pop() {
 	if (top < 0) {
-		printf("It is empty...\n");
 		return -1;
 	}
 	return stack[top--];
 }
+void resetStack() {
+	top = -1;
+}
 
-void insertEdge(Node** head, int data);
-void printList(Node** head, int size);
+int max_queue_size = 10;
+int* queue;
+int front = -1, rear = -1;
+void add_q(int item) {
+	if (rear < max_queue_size - 1) {
+		queue[++rear] = item;
+	}
+	else {
+		max_queue_size *= 2;
+		queue = (int**)realloc(queue, sizeof(int) * max_queue_size);
+		queue[++rear] = item;
+	}
+}
+int delete_q() {
+	if (front >= rear) {
+		return -1;
+	}
+	return queue[++front];
+}
+void resetQueue() {
+	front = -1, rear = -1;
+}
+
+void insertEdge(Node** graph, int start, int end);
+
+void printGraph(Node** graph, int n);
 void higherDgree(Node** graph, int n);
 
 void DFS(Node** graph, int n, int start);
+void BFS(Node** graph, int n, int start);
+
+void spaningDFS(Node** graph, int n, int start);
+void spaningBFS(Node** graph, int n, int start);
+
+void freeGraph(Node** graph, int n);
 
 int main()
 {
 	stack = (int*)calloc(max_stack_size, sizeof(int));
+	queue = (int*)calloc(max_queue_size, sizeof(int));
 	int n;
-	printf("n : ");
-	scanf("%d", &n);
-	Node** graph = (Node*)calloc(n, sizeof(Node));
-	for (int i = 0; i < n; i++) {
-		graph[i] = (Node*)malloc(sizeof(Node));
-		graph[i]->data = i;
-		graph[i]->next = NULL;
-	}
-	int start_node, end_node;
+	Node** graph;
 	for (;;) {
-		printf("inset Edge : ");
-		scanf("%d %d", &start_node, &end_node);
-		if ((start_node < 0) || (end_node < 0)) {
+		printf("Enter the number of nodes (n) : ");
+		scanf("%d", &n);
+		if (n < 0) {
 			break;
 		}
-		insertEdge(graph, start_node, end_node);
+		graph = (Node*)calloc(n, sizeof(Node));
+		for (int i = 0; i < n; i++) {
+			graph[i] = (Node*)malloc(sizeof(Node));
+			graph[i]->data = i;
+			graph[i]->next = NULL;
+		}
+		int start_node, end_node;
+		for (;;) {
+			printf("Enter the Edge : ");
+			scanf("%d %d", &start_node, &end_node);
+			if ((start_node < 0) || (end_node < 0)) {
+				break;
+			}
+			insertEdge(graph, start_node, end_node);
+		}
+
+		printGraph(graph, n);
+		higherDgree(graph, n);
+
+		printf("\nDFS : \n");
+		for (int i = 0; i < n; i+=2) {
+			DFS(graph, n, i);
+		}
+
+		printf("\nBFS : \n");
+		for (int i = 1; i < n; i += 2) {
+			BFS(graph, n, i);
+		}
+
+		printf("\nSpaning tree of DFS : \n");;
+		for (int i = 0; i < n; i += 2) {
+			spaningDFS(graph, n, i);
+		}
+
+		printf("\nSpaning tree of BFS : \n");
+		for (int i = 1; i < n; i += 2) {
+			spaningBFS(graph, n, i);
+		}
+
+		freeGraph(graph, n);
+		printf("\n\n");
 	}
 
-	printList(graph, n);
-	higherDgree(graph, n);
+	free(stack);
+	free(queue);
 
-	printf("DFS : \n");
-	DFS(graph, n, 0);
+	return 0;
+
 }
 
 void insertEdge(Node** graph, int start, int end) {
 	Node* temp;
 	temp = (Node*)malloc(sizeof(Node));
 	temp->data = end;
-	temp->next = NULL;
 	temp->next = graph[start]->next;
 	graph[start]->next = temp;
 
 	temp = (Node*)malloc(sizeof(Node));
 	temp->data = start;
-	temp->next = NULL;
 	temp->next = graph[end]->next;
 	graph[end]->next = temp;
-
 }
 
-void printList(Node** graph, int n) {
+void printGraph(Node** graph, int n) {
+	printf("\nGraph : \n");
 	for (int i = 0; i < n; i++) {
-		printf("%d : ", graph[i]->data);
+		printf("  %d : ", graph[i]->data);
 		for (Node* ptr = graph[i]->next; ptr; ptr = ptr->next) {
 			printf("%d -> ",ptr->data);
 		}
 		printf("end\n");
 	}
+	printf("\n");
 }
 
 void higherDgree(Node** graph, int n) {
@@ -107,9 +170,8 @@ void higherDgree(Node** graph, int n) {
 			higher_degree = now_node_dgree;
 		}
 	}
-
 	printf("Higher dgree Node's num : %d, Node's dgree : %d\n", higher_dgree_node, higher_degree);
-	printf("Conection od Node(%d) : ", higher_dgree_node);
+	printf("Conection of Node(%d) : ", higher_dgree_node);
 	for (Node* ptr = graph[higher_dgree_node]->next; ptr; ptr = ptr->next) {
 		printf("%d -> ", ptr->data);
 	}
@@ -117,33 +179,120 @@ void higherDgree(Node** graph, int n) {
 
 }
 
-
 void DFS(Node** graph, int n, int start) {
-	int* visited = (int*)malloc(sizeof(int) * n);
-	for (int i = 0; i < n; i++) {
-		visited[i] = 0;
-	}
-	Node* ptr = graph[start];
-	while (1) {
-		if (visited[ptr->data] == 0) {
-			printf("%d - ", ptr->data);
+	int* visited = (int*)calloc(n, sizeof(int));
+	printf("  start node = %d : ", start);
+	for (Node* ptr = graph[start];;) {
+		if (!ptr) {
+			int pop_resulte = pop();
+			if (pop_resulte == -1) { break; }
+			ptr = graph[pop_resulte];
+		}
+		if (!visited[ptr->data]) {
+			printf("%d  ", ptr->data);
 			push(ptr->data);
 			visited[ptr->data] = 1;
-			ptr = ptr->next;
+			for (ptr = ptr->next; (ptr) && (visited[ptr->data]); ptr = ptr->next) {}
+			if (ptr == NULL) { continue; }
 			ptr = graph[ptr->data];
 		}
 		else {
 			ptr = ptr->next;
 		}
-		if (ptr == NULL) {
-			ptr = graph[pop()];
-			continue;
+	}
+	printf("\n");
+	resetStack();
+	free(visited);
+}
+
+void BFS(Node** graph, int n, int start) {
+	int* visited = (int*)calloc(n, sizeof(int));
+	printf("  start node = %d : ", start);
+	for (Node* ptr = graph[start];;) {
+		if(!ptr){
+			int delete_resulte = delete_q();
+			if (delete_resulte == -1) { break; }
+			ptr = graph[delete_resulte];
 		}
-		if (top == -1) {
-			break;
+		if (!visited[ptr->data]) {
+			printf("%d  ", ptr->data);
+			add_q(ptr->data);
+			visited[ptr->data] = 1;
+		}
+		else {
+			ptr = ptr->next;
 		}
 	}
+	printf("\n");
+	resetQueue();
+	free(visited);
+}
 
+void spaningDFS(Node** graph, int n, int start) {
+	int* visited = (int*)calloc(n, sizeof(int));
+	Node* prev_ptr = graph[start];
+	push(start);
+	visited[start] = 1;
+	printf("  start node = %d : ", start);
+	for (Node* ptr = graph[(graph[start]->next)->data];;) {
+		if (!ptr) {
+			int pop_resulte = pop();
+			if (pop_resulte == -1) { break; }
+			ptr = graph[pop_resulte];
+			prev_ptr = ptr;
+		}
+		if (!visited[ptr->data]) {
+			printf("(%d, %d) ", prev_ptr->data, ptr->data);
+			prev_ptr = ptr;
+			push(ptr->data);
+			visited[ptr->data] = 1;
+			for (ptr = ptr->next; (ptr) && (visited[ptr->data]); ptr = ptr->next) {}
+			if (ptr == NULL) { prev_ptr = NULL; continue; }
+			ptr = graph[ptr->data];
+		}
+		else {
+			ptr = ptr->next;
+		}
+	}
+	printf("\n");
+	resetStack();
+	free(visited);
+}
 
-	printf("end\n");
+void spaningBFS(Node** graph, int n, int start) {
+	int* visited = (int*)calloc(n, sizeof(int));
+	Node* prev_ptr = graph[start];
+	push(start);
+	visited[start] = 1;
+	printf("  start node = %d : ", start);
+	for (Node* ptr = graph[start]->next;;) {
+		if (!ptr) {
+			int delete_resulte = delete_q();
+			if (delete_resulte == -1) { break; }
+			prev_ptr = graph[delete_resulte];
+			ptr = prev_ptr->next;
+		}
+		if (!visited[ptr->data]) {
+			printf("(%d, %d) ", prev_ptr->data, ptr->data);
+			add_q(ptr->data);
+			visited[ptr->data] = 1;
+		}
+		else {
+			ptr = ptr->next;
+		}
+	}
+	printf("\n");
+	resetQueue();
+	free(visited);
+}
+
+void freeGraph(Node** graph, int n) {
+	for (int i = 0; i < n; i++) {
+		Node* ptr = graph[i];
+		for (Node* sub_ptr = ptr->next; sub_ptr; sub_ptr = ptr->next) {
+			ptr->next = sub_ptr->next;
+			free(sub_ptr);
+		}
+	}
+	free(graph);
 }
