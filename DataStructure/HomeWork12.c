@@ -10,6 +10,7 @@ double* copyArray(double* arr, int n);
 int sortCheck(double* arr, int n);
 double selectionSort(double* arr, int n);
 double insertionSort(double* arr, int n);
+double quickSort(double* arr, int n, int left, int right);
 
 int main()
 {
@@ -17,12 +18,12 @@ int main()
 
 	double duration;
 	int n;
-	n = 100;
+	n = 10;
 	double* original_arr = makeRnadArray(n);
 	double* copy_arr = copyArray(original_arr, n);
 
 	printArray(original_arr, n);
-	duration = insertionSort(original_arr, n);
+	duration = quickSort(original_arr, n, 0, n - 1);
 
 	printf("duration : %f\n", duration);
 	printArray(original_arr, n);
@@ -33,9 +34,6 @@ int main()
 void printArray(double* arr, int n) {
 	for (int i = 0; i < n; i++) {
 		printf("[%.3f]", arr[i]);
-		if ((i) && (i % 9 == 0)) {
-			printf("\n");
-		}
 	}
 	printf("\n\n");
 }
@@ -95,14 +93,64 @@ double insertionSort(double* arr, int n) {
 	return (double)(end - start) / 1000;
 }
 
-double quickSort(double* arr, int left, int right) {
-	if (left >= right) { return 0; }
+double quickSort(double* arr, int n, int left, int right) {
+	if (left >= right) { printf("Return\n");  return 0; }
+	printf("n = %d, left = %d, right = %d\n", n, left, right);
 	clock_t start, end;
-	double standard = arr[(left + right) / 2];
+	double standard = arr[left + right / 2];
+	double temp;
 	start = clock();
-	for (int index = 0, l = left, r = right; l < r; index++) {
+	int l, r;
+	int s;
+	printf("stadard = %.3f\n", standard);
+	for (l = left, r = right; (l < r) && (l < n);) {
 
+
+		printf("left = %d, right = %d\n", l, r);
+		printArray(arr, n);
+		scanf("%d", &s);
+		if (arr[l] < standard) {
+			l++;
+			continue;
+		}
+		if (arr[r] > standard) {
+			r--;
+			continue;
+		}
+		if (arr[l] >= standard) {
+			printf("l[%.3f] <-> [%.3f]\n", arr[l], arr[r]);
+			SWAP(arr[l], arr[r], temp);
+			l++; r--;
+		}
+
+		
+
+		/*
+		if (arr[i] < arr[standard]) {
+			
+			printf("l[%.3f] <-> [%.3f]\n", arr[i], arr[l]);
+			SWAP(arr[i], arr[l], temp);
+			l++;
+
+		}
+		else {
+			for (; arr[r] >= arr[standard]; r--) { ; }
+			printf("r[%.3f] <-> [%.3f]\n", arr[i], arr[r]);
+						r--;
+		}
+		*/
 	}
+	printf("Soting end\n");
+	printArray(arr, n);
+
+	printf("Left part : ");
+	printf("n = %d, left = %d, right = %d\n", l, left, l - 1);
+
+	printf("Right part : ");
+	printf("n = %d, left = %d, right = %d\n", n - r, l, right);
+
+	quickSort(arr, l, left, l - 1);
+	quickSort(arr, n - r - 1, l, right);
 	end = clock();
 	return (double)(end - start) / 1000;
 }
