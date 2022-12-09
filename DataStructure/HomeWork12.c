@@ -4,13 +4,22 @@
 #include<time.h>
 # define SWAP(x,y,t) ((t)=(x), (x)=(y), (y)=(t)) 
 int count = 0;
+
+// Make Array
 double* makeRnadArray(int n);
-double* makeDesendingArray(int n);
+double* makeAscendingArray(int n);
+double* makeDescendingArray(int n);
+
+// Copy Array : return copy array
 double* copyArray(double* arr, int n);
+
+// Sort Check : Sorted -> return 1, Else -> return 0
 int sortCheck(double* arr, int n);
+
+// Sort Algorithm
 double selectionSort(double* arr, int n);
 double insertionSort(double* arr, int n);
-double quickSort(double* arr, int n, int left, int right);
+double quickSort(double* arr, int left, int right);
 
 int main()
 {
@@ -22,78 +31,128 @@ int main()
 
 	// Rand case
 	printf("Rand Case\n");
+	printf("========================================\n");
 	for (;;) {
-		printf("Enter the array's size :");
+		printf("Enter the array's size : ");
 		scanf("%d", &n);
 		if (n < 0) {
 			break;
 		}
 		original_arr = makeRnadArray(n);
+		printf("\n");
 
 		// Seletion Sort
 		printf("Seletion Sort\n");
 		copy_arr = copyArray(original_arr, n);
 		duration = selectionSort(copy_arr, n);
-		printf("duration : %f\n", duration);
-		printf("Is Sorted? : %s\n", (sortCheck(copy_arr, n) ? "True" : "False"));
+		printf("duration : %10.3f, ", duration);
+		printf("Is Sorted? : %s\n\n", (sortCheck(copy_arr, n) ? "True" : "False"));
 		free(copy_arr);
 
 		// Insertion Sort
 		printf("Insertion Sort\n");
 		copy_arr = copyArray(original_arr, n);
 		duration = insertionSort(copy_arr, n);
-		printf("duration : %f\n", duration);
-		printf("Is Sorted? : %s\n", (sortCheck(copy_arr, n) ? "True" : "False"));
+		printf("duration : %10.3f, ", duration);
+		printf("Is Sorted? : %s\n\n", (sortCheck(copy_arr, n) ? "True" : "False"));
 		free(copy_arr);
 
 		// Quick Sort
 		printf("Quick Sort\n");
 		copy_arr = copyArray(original_arr, n);
-		duration = quickSort(copy_arr, n, 0, n - 1);
-		printf("duration : %f\n", duration);
-		printf("Is Sorted? : %s\n", (sortCheck(copy_arr, n) ? "True" : "False"));
+		duration = quickSort(copy_arr, 0, n - 1);
+		printf("duration : %10.3f, ", duration);
+		printf("Is Sorted? : %s\n\n", (sortCheck(copy_arr, n) ? "True" : "False"));
 		free(copy_arr);
 
 		free(original_arr);
+		printf("========================================\n");
 	}
+	printf("\n\n\n");
 
-	// Worst case
-	printf("Worst Case\n");
+
+	// Ascending Case
+	printf("Ascending Case\n");
+	printf("========================================\n");
 	for (;;) {
-		printf("Enter the array's size :");
+		printf("Enter the array's size : ");
 		scanf("%d", &n);
 		if (n < 0) {
 			break;
 		}
-
-		original_arr = makeDesendingArray(n);
+		original_arr = makeAscendingArray(n);
+		printf("\n");
 
 		// Seletion Sort
 		printf("Seletion Sort\n");
 		copy_arr = copyArray(original_arr, n);
 		duration = selectionSort(copy_arr, n);
-		printf("duration : %f\n", duration);
-		printf("Is Sorted? : %s\n", (sortCheck(copy_arr, n) ? "True" : "False"));
+		printf("duration : %10.3f, ", duration);
+		printf("Is Sorted? : %s\n\n", (sortCheck(copy_arr, n) ? "True" : "False"));
 		free(copy_arr);
 
 		// Insertion Sort
 		printf("Insertion Sort\n");
 		copy_arr = copyArray(original_arr, n);
 		duration = insertionSort(copy_arr, n);
-		printf("duration : %f\n", duration);
-		printf("Is Sorted? : %s\n", (sortCheck(copy_arr, n) ? "True" : "False"));
+		printf("duration : %10.3f, ", duration);
+		printf("Is Sorted? : %s\n\n", (sortCheck(copy_arr, n) ? "True" : "False"));
 		free(copy_arr);
 
 		// Quick Sort
 		printf("Quick Sort\n");
 		copy_arr = copyArray(original_arr, n);
-		duration = quickSort(copy_arr, n, 0, n - 1);
-		printf("duration : %f\n", duration);
-		printf("Is Sorted? : %s\n", (sortCheck(copy_arr, n) ? "True" : "False"));
+		duration = quickSort(copy_arr, 0, n - 1);
+		printf("duration : %10.3f, ", duration);
+		printf("Is Sorted? : %s\n\n", (sortCheck(copy_arr, n) ? "True" : "False"));
 		free(copy_arr);
 
 		free(original_arr);
+		printf("========================================\n");
 	}
+	printf("\n\n\n");
+
+	
+	// Descending Case
+	printf("Descending Case\n");
+	printf("========================================\n");
+	for (;;) {
+		printf("Enter the array's size : ");
+		scanf("%d", &n);
+		if (n < 0) {
+			break;
+		}
+		original_arr = makeDescendingArray(n);
+		printf("\n");
+
+		// Seletion Sort
+		printf("Seletion Sort\n");
+		copy_arr = copyArray(original_arr, n);
+		duration = selectionSort(copy_arr, n);
+		printf("duration : %10.3f, ", duration);
+		printf("Is Sorted? : %s\n\n", (sortCheck(copy_arr, n) ? "True" : "False"));
+		free(copy_arr);
+
+		// Insertion Sort
+		printf("Insertion Sort\n");
+		copy_arr = copyArray(original_arr, n);
+		duration = insertionSort(copy_arr, n);
+		printf("duration : %10.3f, ", duration);
+		printf("Is Sorted? : %s\n\n", (sortCheck(copy_arr, n) ? "True" : "False"));
+		free(copy_arr);
+
+		// Quick Sort
+		printf("Quick Sort\n");
+		copy_arr = copyArray(original_arr, n);
+		duration = quickSort(copy_arr, 0, n - 1);
+		printf("duration : %10.3f, ", duration);
+		printf("Is Sorted? : %s\n\n", (sortCheck(copy_arr, n) ? "True" : "False"));
+		free(copy_arr);
+
+		free(original_arr);
+		printf("========================================\n");
+	}
+	printf("\n");
 
 	
 
@@ -102,12 +161,21 @@ int main()
 double* makeRnadArray(int n) {
 	double* arr = (double*)malloc(sizeof(double) * n);
 	for (int i = 0; i < n; i++) {
-		arr[i] = (rand() / (0x7fff * 1.0)) * 10;
+		arr[i] = (rand() / (0x7fff * 1.0)) * 100000000;
 	}
 	return arr;
 }
 
-double* makeDesendingArray(int n) {
+double* makeAscendingArray(int n) {
+	double* arr = (double*)malloc(sizeof(double) * n);
+	for (int i = 0; i < n; i++) {
+		arr[i] = i;
+	}
+	return arr;
+}
+
+
+double* makeDescendingArray(int n) {
 	double* arr = (double*)malloc(sizeof(double) * n);
 	for (int i = 0; i < n; i++) {
 		arr[i] = n--;
@@ -162,10 +230,10 @@ double insertionSort(double* arr, int n) {
 	return (double)(end - start) / 1000;
 }
 
-double quickSort(double* arr, int n, int left, int right) {
+double quickSort(double* arr, int left, int right) {
 	clock_t start, end;
 	start = clock();
-	if ((left >= right) || (n <= 0)) { return 0; }
+	if ((left >= right)) { return 0; }
 	int l = left + 1, r = right;
 	int pivot = left;
 	int new_pivot = left;
@@ -181,8 +249,8 @@ double quickSort(double* arr, int n, int left, int right) {
 		}
 	}
 	SWAP(arr[pivot], arr[new_pivot], temp);
-	quickSort(arr, new_pivot - left, left, new_pivot - 1);
-	quickSort(arr, right - new_pivot, new_pivot + 1, right);
+	quickSort(arr, left, new_pivot - 1);
+	quickSort(arr, new_pivot + 1, right);
 	end = clock();
 	return (double)(end - start) / 1000;
 }
