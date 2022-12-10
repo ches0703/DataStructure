@@ -174,7 +174,6 @@ double* makeAscendingArray(int n) {
 	return arr;
 }
 
-
 double* makeDescendingArray(int n) {
 	double* arr = (double*)malloc(sizeof(double) * n);
 	for (int i = 0; i < n; i++) {
@@ -231,12 +230,13 @@ double insertionSort(double* arr, int n) {
 }
 
 double quickSort(double* arr, int left, int right) {
+	if ((left >= right)) { return 0; }
 	clock_t start, end;
 	start = clock();
-	if ((left >= right)) { return 0; }
 	int l = left + 1, r = right;
 	int pivot = left;
 	double temp;
+	SWAP(arr[left], arr[(left + right) / 2], temp);
 	for (; l <= r;) {
 		if (arr[pivot] > arr[l]) {
 			l++;
