@@ -236,21 +236,19 @@ double quickSort(double* arr, int left, int right) {
 	if ((left >= right)) { return 0; }
 	int l = left + 1, r = right;
 	int pivot = left;
-	int new_pivot = left;
 	double temp;
 	for (; l <= r;) {
 		if (arr[pivot] > arr[l]) {
 			l++;
-			new_pivot++;
 		}
 		else {
 			SWAP(arr[r], arr[l], temp);
 			r--;
 		}
 	}
-	SWAP(arr[pivot], arr[new_pivot], temp);
-	quickSort(arr, left, new_pivot - 1);
-	quickSort(arr, new_pivot + 1, right);
+	SWAP(arr[pivot], arr[r], temp);
+	quickSort(arr, left, r - 1);
+	quickSort(arr, r + 1, right);
 	end = clock();
 	return (double)(end - start) / 1000;
 }
