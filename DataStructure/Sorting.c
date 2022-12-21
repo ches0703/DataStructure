@@ -4,6 +4,8 @@
 #include<time.h>
 # define SWAP(x,y,t) ((t)=(x), (x)=(y), (y)=(t)) 
 
+double temp;
+
 // Make Array
 double* makeRnadArray(int n);
 double* makeAscendingArray(int n);
@@ -23,6 +25,13 @@ void mergeSort(double* arr, int n);
 void merge(double* arr, double* extra_arr, int l_start, int l_end, int r_end);
 void heapSort(double* arr, int n);
 void adjust(double* arr, int root, int n);
+
+void printArr(double* arr, int n) {
+	for (int i = 0; i < n; i++) {
+		printf("[%2.2f] ", arr[i]);
+	}
+	printf("\n\n");
+}
 
 int main()
 {
@@ -44,6 +53,7 @@ int main()
 		}
 		original_arr = makeRnadArray(n);
 		printf("\n");
+
 
 		// Seletion Sort
 		printf("Seletion Sort\n");
@@ -104,7 +114,7 @@ int main()
 		copy_arr[0] = 0;
 
 		start = clock();
-		heapSort(copy_arr, n - 1);
+		heapSort(copy_arr, n);
 		end = clock();
 		duration = (double)(end - start) / 1000;
 
@@ -129,6 +139,7 @@ int main()
 		original_arr = makeAscendingArray(n);
 		printf("\n");
 
+
 		// Seletion Sort
 		printf("Seletion Sort\n");
 		copy_arr = copyArray(original_arr, n);
@@ -188,7 +199,7 @@ int main()
 		copy_arr[0] = 0;
 
 		start = clock();
-		heapSort(copy_arr, n - 1);
+		heapSort(copy_arr, n);
 		end = clock();
 		duration = (double)(end - start) / 1000;
 
@@ -212,6 +223,7 @@ int main()
 		original_arr = makeDescendingArray(n);
 		printf("\n");
 
+
 		// Seletion Sort
 		printf("Seletion Sort\n");
 		copy_arr = copyArray(original_arr, n);
@@ -266,13 +278,15 @@ int main()
 		free(copy_arr);
 
 		// Heap sort
+		
 		printf("Heap sort\n");
 		copy_arr = copyArray(original_arr, n);
 		copy_arr[0] = 0;
 
 		start = clock();
-		heapSort(copy_arr, n - 1);
+		heapSort(copy_arr, n);
 		end = clock();
+
 		duration = (double)(end - start) / 1000;
 
 		printf("duration : %10.3f, ", duration);
@@ -304,9 +318,10 @@ double* makeAscendingArray(int n) {
 }
 
 double* makeDescendingArray(int n) {
+	int j = n;
 	double* arr = (double*)malloc(sizeof(double) * n);
 	for (int i = 0; i < n; i++) {
-		arr[i] = n--;
+		arr[i] = j--;
 	}
 	return arr;
 }
@@ -336,7 +351,7 @@ int sortCheck(double* arr, int n) {
 
 void selectionSort(double* arr, int n) {
 	int min_index;
-	double temp;
+	
 	for (int i = 0; i < n; i++) {
 		min_index = i;
 		for (int j = i + 1; j < n; j++) {
@@ -360,7 +375,7 @@ void insertionSort(double* arr, int n) {
 void quickSort(double* arr, int left, int right) {
 
 	int l = left + 1, r = right;
-	double temp;
+	
 	SWAP(arr[left], arr[(left + right) / 2], temp);
 	for (; l <= r; l++, r--) {
 		for (; (arr[l] <= arr[left]) && (l <= r); l++) {}
@@ -410,31 +425,30 @@ void merge(double* arr, double* extra_arr, int l_start, int l_end, int r_end) {
 	for (; r <= r_end; i++) { extra_arr[i] = arr[r++]; }
 }
 
-void heapSort(double* arr, int n){
+void heapSort(double* arr, int n) {
 	int i, j;
-	double temp;
+	
 	for (i = n / 2; i > 0; i--) {
-		adjust(arr, i, n); 
+		adjust(arr, i, n);
 	}
 	for (i = n - 1; i > 0; i--) {
-		SWAP(arr[1], arr[i + 1], temp);
-		adjust(arr, 1, i); 
+		SWAP(arr[1], arr[i], temp);
+		adjust(arr, 1, i);
 	}
 }
 
 void adjust(double *arr, int root, int n){	
 	int child = 2 * root;
-	while (child <= n) {
-		if ((child < n) && (arr[child] < arr[child + 1])) {
-			child++;
-		}
-		if (arr[root] >= arr[child]) {
-			break;
-		}
-		else {
-			arr[child / 2] = arr[child];
-			child *= 2;
-		}
+	
+	if (child >= n) {
+		return;
 	}
-	arr[child / 2] = arr[root];
+	if ((child + 1 < n) && (arr[child + 1] > arr[child])) {
+		child++;
+	}
+	if (arr[child] > arr[root]) {
+		SWAP(arr[child], arr[root], temp);
+		adjust(arr, child, n);
+	}
+
 }
